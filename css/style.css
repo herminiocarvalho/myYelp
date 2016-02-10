@@ -1,0 +1,27 @@
+
+body{
+    font-family:arial;
+    font-size:.8em;
+}
+
+input[type=text]{
+    padding:0.5em;
+    width:20em;
+}
+
+input[type=submit]{
+    padding:0.4em;
+}
+
+#gmap_canvas{
+    width:50%;
+    height:30em;
+}
+
+#map-label,
+#address-examples{
+    margin:1em 0;
+    width: 200px;
+}
+
+

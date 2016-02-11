@@ -5,20 +5,11 @@
         <group>
             <file>file:/C:/xampp/htdocs/myYelp/connexion.php</file>
             <file>file:/C:/xampp/htdocs/myYelp/accueil.php</file>
-            <file>file:/C:/xampp/htdocs/myYelp/gestionUser.php</file>
-            <file>file:/C:/xampp/htdocs/myYelp/gestionUser1.php</file>
-            <file>file:/C:/xampp/htdocs/myYelp/admin.php</file>
-            <file>file:/C:/xampp/htdocs/myYelp/form_invitation.html</file>
-            <file>file:/C:/xampp/htdocs/myYelp/lieu.php</file>
-            <file>file:/C:/xampp/htdocs/myYelp/form_inscription.html</file>
-            <file>file:/C:/xampp/htdocs/myYelp/lieu2.php</file>
             <file>file:/C:/xampp/htdocs/myYelp/index.php</file>
             <file>file:/C:/xampp/htdocs/myYelp/lost_password.php</file>
-            <file>file:/C:/xampp/htdocs/myYelp/css/style.css</file>
             <file>file:/C:/xampp/htdocs/myYelp/change_password.php</file>
             <file>file:/C:/xampp/htdocs/myYelp/include/config.php</file>
             <file>file:/C:/xampp/htdocs/myYelp/inscription.php</file>
-            <file>file:/C:/xampp/htdocs/myYelp/afficherLieu.php</file>
         </group>
     </open-files>
 </project-private>

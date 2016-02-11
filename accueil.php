@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 require 'include/config.php';
 ?>
@@ -49,6 +50,22 @@ require 'include/config.php';
 	<a href="accueil.php" border="0" />Accueil</a>
 </section>
 <?php
+echo '<pre>';
+print_r($_SESSION);
+echo '</pre>';
+
+    // Quand admin afficher les liens admin dans la div #admin  menu
+if(isset($_SESSION['sess_role']) == 'simple'){ 
+
+ ?>					
+    <div id="admin">
+		<ul>
+			<li><a href="gestionUser.php">gestionUser.php</a></li>
+			<li><a href="lieu.php">gestionDesLieux.php</a></li>
+		</ul>
+	</div>
+<?php
+}
 $sql = 'SELECT    
                 `id_lieu`,
                 `nom_lieu`,

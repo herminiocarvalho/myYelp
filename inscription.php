@@ -80,6 +80,8 @@ require 'include/config.php';
                             // On mets les variables en session
                             $_SESSION['sess_login'] = $email;
                             $_SESSION['sess_password'] = $passwordHashed;
+                            $_SESSION['sess_role'] = $role;
+                            
                             header('Location: accueil.php');
                             exit();
                         } else {

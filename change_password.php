@@ -6,140 +6,124 @@ require 'include/config.php';
 	<title>Change Password</title>
 </head>
 <body>
-    
-<?php
 
- // si formulaire soumis
-
-              
-            if (!empty($_POST)) {
-                print_r($_POST);
-
-                // Je récupère les données du post
-                $id_user = isset($_POST['id_user']) ? intval($_POST['id_user']) : 0;
-                $passwordToto1 = isset($_POST['passwordToto1']) ? trim($_POST['passwordToto1']) : '';
-                $passwordToto2 = isset($_POST['passwordToto2']) ? trim($_POST['passwordToto2']) : '';
-
-                // Je fais les vérifications
-                $formOk = true;
-                if (empty($passwordToto1)) {
-                    echo 'password empty<br />';
-                    $formOk = false;
-                }
-                if ($passwordToto1 !== $passwordToto2) {
-                    echo 'passwords are differents<br />';
-                    $formOk = false;
-                }
-                
-                
-                if (strlen($passwordToto1) < 8) {
-                    echo 'password too short<br />';
-                    $formOk = false;
-                }
-
-                // Si vérifs ok
-                if ($formOk) {
-                   
-                        // J'insère en DB
-                        $modifUser = 'UPDATE  `users` SET  
-                            `role_user` = :role
-                            `password_user` = :role
-                           
-                                 WHERE  id_user= :id_user';
-                   
-   
-
-                        // Je bind mes variables de requête
-                        $pdoStatement = $pdo->prepare($modifUser);
-                      
-                        $pdoStatement->bindValue(':id_user', $id_user);
-                        $passwordHashed = password_hash($passwordToto1, PASSWORD_BCRYPT);
-                        $pdoStatement->bindValue(':password', $passwordHashed, PDO::PARAM_STR);
-                        // on inscrit que des simple users 
-                        $role = "simple";
-                        $pdoStatement->bindValue(':role', $role, PDO::PARAM_STR);
-
-                        // J'exécute
-                        if ($pdoStatement->execute()) {
-                            echo 'user signed up<br />';
-
-                            // On mets les variables en session
-                            $_SESSION['sess_login'] = $email;
-                            $_SESSION['sess_password'] = $passwordHashed;
-                            header('Location: accueil.php');
-                            exit();
-                        } else {
-                            echo 'Problem connection<br />';
-                            header('Location: lost_password.php');
-                             exit();
-                        }
-                    }
-                }
-            
+	<?php
 
 
-
-$emailClient = isset($_GET['email']) ? trim($_GET['email']) : '';
-$token = isset($_GET['token']) ? trim($_GET['token']) : '';
+	$emailClient = isset($_GET['email']) ? trim($_GET['email']) : '';
+	$token = isset($_GET['token']) ? trim($_GET['token']) : '';
 
 // J'initialise ma variable
-$tokenOk = false;
+	$tokenOk = false;
 // Token fourni
-if (!empty($token)) {
+	if (!empty($token)) {
 	// Devrait etre mis dans une fonction car répété !!!!!!!
-	$checkEmail = '
+		$checkEmail = '
 		SELECT id_user,password_user
 		FROM users
 		WHERE email_user = :email
-	';
-	$pdoStatement = $pdo->prepare($checkEmail);
-	$pdoStatement->bindValue(':email', $emailClient, PDO::PARAM_STR);
+		';
+		$pdoStatement = $pdo->prepare($checkEmail);
+		$pdoStatement->bindValue(':email', $emailClient, PDO::PARAM_STR);
 	// J'exécute ma requete et je teste si j'ai des résultats
-	if ($pdoStatement->execute() && $pdoStatement->rowCount() > 0) {
+		if ($pdoStatement->execute() && $pdoStatement->rowCount() > 0) {
 		// => L'email existe
-		$res = $pdoStatement->fetch();
+			$res = $pdoStatement->fetch();
 		// Je créé le token à partir des informations du user
-		$tokenValid = md5($emailClient.'sdfghr45f'.$res['password_user']);
-                $currentId = $res['id_user'];
+			$tokenValid = md5($emailClient.'sdfghr45f'.$res['password_user']);
+			$currentId = $res['id_user'];
 
 		// Je teste le bon token généré avec le token fourni
-		if ($tokenValid === $token) {
-			$tokenOk = true;
-                       
-                        
+			if ($tokenValid === $token) {
+				$tokenOk = true;
+
+
+			}
+			else {
+				echo 'token invalid<br />';
+			}
 		}
 		else {
-			echo 'token invalid<br />';
+			echo 'email does not exists<br />';
 		}
 	}
 	else {
-		echo 'email does not exists<br />';
+		echo 'token empty<br />';
 	}
-}
-else {
-	echo 'token empty<br />';
-}
 
-// TODO : écrire le code permettant de récupérer les données en POST
-// et de modifier le password du user
 
-// On affiche le formulaire de changement de password qui si le token est valide
-if ($tokenOk) {
-?>
-	<form action="" method="post">
-		<fieldset>
-			<legend>Change password</legend>
-                         <input type="hidden" name="id_user" value="<?php echo $currentId; ?>" />
-		<!--	<input type="hidden" name="emailToto" value="<?php echo $emailClient; ?>" />  -->
-			<input type="password" name="passwordToto1" value="" placeholder="Your password" /> (8 caractères minimum)<br />
-			<input type="password" name="passwordToto2" value="" placeholder="Confirm your password" /><br />
-			<input type="submit" value="Change password"><br />
-		</fieldset>
-	</form>
-<?php
-}
-?>
+ // si formulaire soumis
+
+
+	if (!empty($_POST)) {
+		print_r($_POST);
+
+                // Je récupère les données du post
+		$id_user = isset($_POST['id_user']) ? intval($_POST['id_user']) : 0;
+		$passwordToto1 = isset($_POST['passwordToto1']) ? trim($_POST['passwordToto1']) : '';
+		$passwordToto2 = isset($_POST['passwordToto2']) ? trim($_POST['passwordToto2']) : '';
+
+                // Je fais les vérifications
+		$formOk = true;
+		if (empty($passwordToto1)) {
+			echo 'password empty<br />';
+			$formOk = false;
+		}
+		if ($passwordToto1 !== $passwordToto2) {
+			echo 'passwords are differents<br />';
+			$formOk = false;
+		}
+
+
+		if (strlen($passwordToto1) < 8) {
+			echo 'password too short<br />';
+			$formOk = false;
+		}
+
+        // Si vérifs ok
+		if ($formOk) {
+
+            // J'insère en DB
+			$changPass = 'UPDATE  `users` 
+			SET `password_user` = :password
+			WHERE  id_user= :id_user';
+            // Je bind mes variables de requête
+			$pdoStatement = $pdo->prepare($changPass);
+
+			$pdoStatement->bindValue(':id_user', $id_user);
+			$passwordHashed = password_hash($passwordToto1, PASSWORD_BCRYPT);
+			$pdoStatement->bindValue(':password', $passwordHashed, PDO::PARAM_STR);
+
+            // J'exécute
+			if ($pdoStatement->execute()) {
+				echo 'Le password a été changé up<br />';
+				header('Location: accueil.php');
+				exit();
+			} else {
+				echo 'Problem connection<br />';
+				header('Location: lost_password.php');
+				exit();
+			}
+		}
+	}
+
+	?>
+	<?php
+	if ($tokenOk) {
+		?>
+		<form action="" method="post">
+			<fieldset>
+				<legend>Change password</legend>
+				<input type="hidden" name="id_user" value="<?php echo $currentId; ?>" />
+				<!--	<input type="hidden" name="emailToto" value="<?php echo $emailClient; ?>" />  -->
+				<input type="password" name="passwordToto1" value="" placeholder="Your password" /> (8 caractères minimum)<br />
+				<input type="password" name="passwordToto2" value="" placeholder="Confirm your password" /><br />
+				<input type="submit" value="Change password"><br />
+			</fieldset>
+		</form>
+		<?php
+	}
+	?>
 </body>
 </html>
 
-  
